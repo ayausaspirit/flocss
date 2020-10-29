@@ -17,7 +17,7 @@ FLOCSSは次の3つのレイヤーと、**Object**レイヤーの子レイヤー
 
 ### Foundation
 
-Reset.cssやNormalize.cssなどを用いたブラウザのデフォルトスタイルの初期化や、プロジェクトにおける基本的なスタイルを定義します。
+Reset.scssやNormalize.scssなどを用いたブラウザのデフォルトスタイルの初期化や、プロジェクトにおける基本的なスタイルを定義します。
 ページの下地としての全体の背景や、基本的なタイポグラフィなどが該当します。
 
 ### Layout
@@ -430,100 +430,6 @@ FLOCSSでは、後ろのレイヤーになるほど具体的になり、カス�
 
 - Projectレイヤーモジュール内に、同一のComponentレイヤーモジュールが複数点在する場合を考慮し、出来る限り子供セレクタなどを活用して、適用範囲を限定する。
 - 他のモジュールを親セレクタに持つのは**1つ**だけとする。
-
-### モジュール内のカスケーディング
-
-他のレイヤーやモジュールを横断してのカスケーディングとは異なり、モジュール内で完結するカスケーディング、複数のセレクタを用いることは**許容**します。
-
-例えば、次のような`Tabs`モジュールの場合です。
-
-```html
-<ul class="c-tabs">
-  <li class="c-tab">
-    <a>Tab A</a>
-  </li>
-  <li class="c-tab">
-    <a>Tab B</a>
-  </li>
-  <li class="c-tab">
-    <a>Tab C</a>
-  </li>
-</ul>
-```
-
-```css
-.c-tabs {
-  display: table;
-  table-layout: fixed;
-}
-.c-tab {
-  display: table-cell;
-}
-.c-tab > a { // Use Descendant selector
-  display: block;
-}
-```
-
-この場合も、より堅実な設計を考慮するならば、次にように書くのも良いでしょう。
-
-```html
-<ul class="c-tabs">
-  <li class="c-tab">
-    <a class="c-tab__target">Tab A</a>
-  </li>
-  <li class="c-tab">
-    <a class="c-tab__target">Tab B</a>
-  </li>
-  <li class="c-tab">
-    <a class="c-tab__target">Tab C</a>
-  </li>
-</ul>
-```
-
-```css
-.c-tabs {
-  display: table;
-  table-layout: fixed;
-}
-.c-tab {
-  display: table-cell;
-}
-.c-tab__target { // Use BEM "Element"
-  display: block;
-}
-```
-
-この例以外にも、リスト系モジュールにおいて隣接する要素間にボーダーが必要、といったケースでは隣接セレクタ'E + E {...}`を用いる場合もありますし、":hover"のような擬似クラスや状態を表すクラスをつける場合もあります。
-これらはすべて許容範囲とします。
-
-
-```html
-<ul class="c-tabs">
-  <li class="c-tab p-category-nav is-selected">
-    <a>Tab A</a>
-  </li>
-  <li class="c-tab p-category-nav">
-    <a>Tab B</a>
-  </li>
-  <li class="c-tab p-category-nav">
-    <a>Tab C</a>
-  </li>
-</ul>
-```
-
-```css
-.p-category-nav {
-  background-image: url(/img/bg-category-nav.png);
-}
-.p-category-nav:hover {
-  background-image: url(/img/bg-category-nav--highlight.png);
-}
-.p-category-nav:active,
-.p-category-nav.is-selected {
-  background-color: #FFFFFF;
-  background-image: none;
-}
-```
 
 ## CSSプリプロセッサのExtend
 
